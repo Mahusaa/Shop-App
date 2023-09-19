@@ -2,7 +2,7 @@ const Product =  require("../models/products")
 
 exports.getAddProducts = (req, res, next) => {
   // Handle GET requests to '/admin/add-product' route
-  res.render("add-product", {
+  res.render("admin/add-product", {
     //pageTitle and path we output it in head.ejs and navigation.ejs
     pageTitle: "Add Product",
     path: "/admin/add-product",
@@ -22,7 +22,7 @@ exports.postAddProduct = (req, res, next) => {
 //Handle get to trender shop.js
 exports.getProducts =  (req, res, next) => {
   const products = Product.fetchAll(products => {
-    res.render('shop', {
+    res.render('shop/products-list', {
       prods: products,
       pageTitle: 'Shop',
       path: '/',
