@@ -18,17 +18,3 @@ exports.postAddProduct = (req, res, next) => {
   product.save()
   res.redirect("/");
 };
-
-//Handle get to trender shop.js
-exports.getProducts =  (req, res, next) => {
-  const products = Product.fetchAll(products => {
-    res.render('shop/products-list', {
-      prods: products,
-      pageTitle: 'Shop',
-      path: '/',
-      hasProducts: products.length > 0,
-      activeShop: true,
-      productCSS: true
-    });
-  })
-}

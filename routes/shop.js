@@ -2,13 +2,13 @@ const path = require('path');
 
 const express = require('express');
 
-const productControllers = require("../controllers/products")
+const shopControllers = require("../controllers/shop")
 
 const router = express.Router();
 
 
 // get "/" page with the controller
-router.get('/', productControllers.getProducts);
+router.get('/', shopControllers.getProducts);
 
 router.get("/products");
 
