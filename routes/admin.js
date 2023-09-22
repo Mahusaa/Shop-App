@@ -9,7 +9,7 @@ const router = express.Router(); // Create an Express Router instance
 router.get('/add-product', adminControllers.getAddProducts);
 
 //admin/products => GET
-router.get("products")
+router.get("products", adminControllers.getProducts)
 
 // /admin/add-product => POST
 router.post('/add-product', adminControllers.postAddProduct);

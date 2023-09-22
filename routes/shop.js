@@ -8,13 +8,13 @@ const router = express.Router();
 
 
 // get "/" page with the controller
-router.get('/', shopControllers.getProducts);
+router.get('/', shopControllers.getIndex);
 
-router.get("/products");
+router.get("/products", shopControllers.getProducts);
 
-router.get("/cart");
+router.get("/cart", shopControllers.getCart);
 
-router.get("/checkout");
+router.get("/checkout", shopControllers.getCheckout);
 
 
 module.exports = router;
