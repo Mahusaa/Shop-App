@@ -1,3 +1,4 @@
+const { reset } = require("nodemon");
 const Product =  require("../models/products")
 
 //Handle get to render product-list.ejs in shop
@@ -41,3 +42,8 @@ exports.getOrders = (req, res, next) => {
       path: '/orders',
     })
   }
+
+exports.getProduct = (req, res, next) => {
+  const prodId = req.params.productId;
+  console.log(prodId);
+}
