@@ -1,18 +1,20 @@
 const path = require("path");
 const fs = require("fs");
 
+
 const p = path.join(
     path.dirname(process.mainModule.filename),
     "data",
     "products.json"
   );
 
+// Function to read products from the file and pass them to a callback.
 const getProductsFromFile = cb => {
     fs.readFile(p, (err, fileContent) => {
         if(err){
-            return cb([]);
+            return cb([]); // If there's an error reading the file, pass an empty array to the callback.
         } else {
-            cb(JSON.parse(fileContent));
+            cb(JSON.parse(fileContent)); // Parse the file content (assumed to be JSON) and pass it to the callback.
         }
 
     })
@@ -28,6 +30,7 @@ module.exports = class Product {
   }
 
   save() {
+    this.id = Math.random().toString();
     getProductsFromFile(products => {
         products.push(this);
         fs.writeFile(p, JSON.stringify(products), (err) => console.log(err));
@@ -38,4 +41,10 @@ module.exports = class Product {
   static fetchAll(cb) {
     getProductsFromFile(cb);
   }
+  static findById(id, cb){
+        getProductsFromFile(products => {
+            const product = products.find(product => product.id === id); 
+            cb(product);
+        })
+    }
 };
