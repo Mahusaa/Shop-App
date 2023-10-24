@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // Define routes for '/admin' using 'adminData' router from admin.js with destructuring object and other routes using 'shopRoutes'
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
