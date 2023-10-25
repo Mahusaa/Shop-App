@@ -73,5 +73,19 @@ module.exports = class Product {
             cb(product);
         });
     }
+    // Method to delete product by an ID using post request
+    static deleteById(id, cb){
+        getProductsFromFile(products => {
+            const updatedProducts = products.filter(prod => prod.id !== id);
+            fs.writeFile(p, JSON.stringify(updatedProducts), err => {
+                if(err){
+                console.log(err);
+                }
+                if(cb){
+                    cb();
+                }
+            })
+        })
+    }
 };
 
