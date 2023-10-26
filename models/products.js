@@ -1,5 +1,6 @@
 const path = require("path");
 const fs = require("fs");
+const Cart = require("./cart")
 
 // Define the path to the JSON file where product data is stored
 const p = path.join(
@@ -76,12 +77,14 @@ module.exports = class Product {
     // Method to delete product by an ID using post request
     static deleteById(id, cb){
         getProductsFromFile(products => {
+            const product = products.find(prod => prod.id === id);
             const updatedProducts = products.filter(prod => prod.id !== id);
             fs.writeFile(p, JSON.stringify(updatedProducts), err => {
                 if(err){
                 console.log(err);
                 }
                 if(cb){
+                    Cart.deleteProduct(id, product.price);
                     cb();
                 }
             })
