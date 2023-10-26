@@ -84,8 +84,9 @@ module.exports = class Product {
                 console.log(err);
                 }
                 if(cb){
-                    Cart.deleteProduct(id, product.price);
-                    cb();
+                    Cart.deleteProduct(id, product.price, () => {
+                        cb();
+                    });
                 }
             })
         })
