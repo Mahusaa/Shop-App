@@ -10,7 +10,7 @@ const p = path.join(
 
 
 module.exports = class Cart {
-    static addProduct(id, productPrice){
+    static addProduct(id, productPrice, cb){
         fs.readFile(p, (err, fileContent) => {
             let cart = {products: [], totalPrice: 0}
             if(!err){
@@ -30,7 +30,12 @@ module.exports = class Cart {
             }
             cart.totalPrice = cart.totalPrice + productPrice;
             fs.writeFile(p, JSON.stringify(cart), err => {
-                console.log(err);
+                if(err){
+                    console.log(err);
+                }
+                if(cb){
+                    cb()
+                }
             })
         })
     }
