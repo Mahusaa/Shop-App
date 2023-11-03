@@ -4,16 +4,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
+// Import route handlers
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+const errorControllers = require("./controllers/error");
+const db = require("./util/database"); 
 
 // Set the view engine to EJS and define the views directory
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-
-// Import route handlers
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
-const errorControllers = require("./controllers/error")
 
 // Middleware to parse incoming request bodies
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,9 +22,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+db.query('SELECT * FROM products', (error, results) => {
+  if (error) {
+    console.error('Error fetching products:', error);
+  } else {
+    console.log('Products:', results.rows);
+  }
+});
+
 // Define routes for '/admin' using 'adminData' router from admin.js with destructuring object and other routes using 'shopRoutes'
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+
+
 
 // Handle 404 (Not Found) errors and render a custom view
 app.use(errorControllers.get404);
