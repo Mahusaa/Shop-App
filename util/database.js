@@ -1,16 +1,16 @@
+require('dotenv').config();
 const { Pool } = require('pg');
 
-// Create a PostgreSQL connection pool
+
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'postgres',
-  password: 'postgres',
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
   port: 5432,
-  max: 20, // The maximum number of clients in the pool
+  max: 20, 
 });
 
-// Export the pool for use in your application
 module.exports = pool;
 
 
