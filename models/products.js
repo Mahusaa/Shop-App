@@ -11,9 +11,6 @@ module.exports = class Product {
     }
 
     save(cb) {
-        db.query("INSERT INTO products (title, price, description, \"imageURL\") VALUES ($1, $2, $3, $4)", [this.title, this.price, this.description, this.imageURL], err => {
-            if (err) {
-            console.error("Error saving data: ", err);
         const insertQuery = {
             text: "INSERT INTO products (title, price, description, \"imageURL\") VALUES ($1, $2, $3, $4)",
             values: [this.title, this.price, this.description, this.imageURL],
@@ -22,12 +19,9 @@ module.exports = class Product {
             if(error){
                 console.error("Error saving data: ", error);
             } else {
-            console.log("Product successfully saved");
-            cb();
                 console.log("Product data saved");
                 cb();
             }
-        });
         };
         db.query(insertQuery, handleQueryResults);
         }
@@ -43,7 +37,21 @@ module.exports = class Product {
 });
     }
 
-    static findById() {
+    static findById(id, cb) {
+        const findIdQuery = {
+            text: "SELECT * FROM products WHERE id = $1",
+            values: [id],
+        };
+        const handleQueryResults = (error, result) => {
+            if(error){
+                console.error("Searching error: ", error);
+                cb(error, null);
+            } else {
+                console.log(result.rows[0]);
+                cb(result.rows[0]);
+            }
+        }
+        db.query(findIdQuery, handleQueryResults);
     }
     static deleteById(){
 };
