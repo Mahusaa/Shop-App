@@ -22,13 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-db.query('SELECT * FROM products', (error, results) => {
-  if (error) {
-    console.error('Error fetching products:', error);
-  } else {
-    console.log('Products:', results.rows);
-  }
-});
+
 
 // Define routes for '/admin' using 'adminData' router from admin.js with destructuring object and other routes using 'shopRoutes'
 app.use('/admin', adminRoutes);

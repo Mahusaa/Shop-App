@@ -10,8 +10,17 @@ module.exports = class Product {
         this.description = description;
     }
 
-    save() {
-    }
+    save(cb) {
+        db.query("INSERT INTO products (title, price, description, \"imageURL\") VALUES ($1, $2, $3, $4)", [this.title, this.price, this.description, this.imageURL], err => {
+            if (err) {
+            console.error("Error saving data: ", err);
+            } else {
+            console.log("Product successfully saved");
+            cb();
+            }
+        });
+        }
+
 
     static fetchAll(cb) {
         db.query('SELECT * FROM products', (error, results) => {
