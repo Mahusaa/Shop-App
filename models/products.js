@@ -14,11 +14,22 @@ module.exports = class Product {
         db.query("INSERT INTO products (title, price, description, \"imageURL\") VALUES ($1, $2, $3, $4)", [this.title, this.price, this.description, this.imageURL], err => {
             if (err) {
             console.error("Error saving data: ", err);
+        const insertQuery = {
+            text: "INSERT INTO products (title, price, description, \"imageURL\") VALUES ($1, $2, $3, $4)",
+            values: [this.title, this.price, this.description, this.imageURL],
+        };
+        const handleQueryResults = (error) => {
+            if(error){
+                console.error("Error saving data: ", error);
             } else {
             console.log("Product successfully saved");
             cb();
+                console.log("Product data saved");
+                cb();
             }
         });
+        };
+        db.query(insertQuery, handleQueryResults);
         }
 
 
