@@ -65,10 +65,10 @@ exports.getOrders = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
-  Product.findById(prodId, product => {
-    res.render("shop/product-details", {
-      product: product, 
-      pageTitle: product.title,
+  Product.findAll({where: { id: prodId} }).then(products => {
+      res.render("shop/product-details", {
+      product: products[0], 
+      pageTitle: products[0].title,
       path: "/products",
     })
   })
