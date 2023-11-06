@@ -8,7 +8,7 @@ const app = express();
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorControllers = require("./controllers/error");
-const db = require("./util/database"); 
+const sequelize = require('./util/database');
 
 // Set the view engine to EJS and define the views directory
 app.set('view engine', 'ejs');
@@ -34,5 +34,11 @@ app.use(shopRoutes);
 app.use(errorControllers.get404);
 
 
-app.listen(3000);
+sequelize.sync().then(result => {
+	console.log(result);
+	app.listen(3000);
+}).catch(err => {
+	console.log(err);
+})
+
 
