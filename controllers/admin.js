@@ -42,9 +42,14 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.params.productId;
-  Product.deleteById(prodId, () => {
-    res.redirect("/admin/products");
-  });
+  Product.findByPk(prodId)
+    .then(product => {
+      return product.destroy();
+    })
+    .then(() => {
+      console.log("Product got deleted");
+      res.redirect("/admin/products");
+    })
 }
 
 exports.getEditProducts = (req, res, next) => {
@@ -63,7 +68,9 @@ exports.getEditProducts = (req, res, next) => {
       editing: editMode,
       product: product,
     })
-  })
+  }).catch(err => {
+      console.log(err);
+    })
 
 }
 
