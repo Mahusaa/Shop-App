@@ -3,7 +3,6 @@ const Product =  require("../models/products")
 exports.getAddProducts = (req, res, next) => {
   // Handle GET requests to '/admin/edit-product' route
   res.render("admin/edit-product", {
-    //pageTitle and path we output it in head.ejs and navigation.ejs
     pageTitle: "Add Product",
     path: "/admin/add-product",
     editing: false,
@@ -68,11 +67,13 @@ exports.getEditProducts = (req, res, next) => {
 }
 
 exports.getProducts = (req, res, next) => {
-    Product.fetchAll(products => {
+    Product.findAll().then((products => {
       res.render('admin/products', {
         prods: products,
         pageTitle: 'Admin Products',
         path: '/admin/products',
       });
+    })).catch(err => {
+      console.log(err);
     })
   }
