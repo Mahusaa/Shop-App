@@ -34,8 +34,8 @@ app.use(shopRoutes);
 app.use(errorControllers.get404);
 
 
-sequelize.sync().then(result => {
-	console.log(result);
+sequelize.sync().then(() => {
+	console.log("Successfully connected to a db");
 	app.listen(3000);
 }).catch(err => {
 	console.log(err);
