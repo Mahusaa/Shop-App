@@ -52,7 +52,7 @@ exports.getEditProducts = (req, res, next) => {
     return res.redirect("/");
   }
   const prodId = req.params.productId;
-  Product.findById(prodId, product => {
+  Product.findByPk(prodId).then(product => {
     if(!product){
       return res.redirect("/");
     }
