@@ -19,11 +19,17 @@ app.set('views', 'views');
 
 // Middleware to parse incoming request bodies
 app.use(bodyParser.urlencoded({ extended: false }));
-
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+app.use((req, res, next) => {
+	User.findByPk(1)
+		.then(user => {
+			req.user = user;
+			next();
+	})
+	.catch(err => console.log(err))
+})
 
 
 // Define routes for '/admin' using 'adminData' router from admin.js with destructuring object and other routes using 'shopRoutes'
@@ -35,9 +41,10 @@ app.use(shopRoutes);
 // Handle 404 (Not Found) errors and render a custom view
 app.use(errorControllers.get404);
 
-
 Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
 User.hasMany(Product);
+
+
 sequelize
 	.sync()
 	.then(() => {
