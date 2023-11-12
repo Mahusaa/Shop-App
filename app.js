@@ -9,6 +9,8 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorControllers = require("./controllers/error");
 const sequelize = require('./util/database');
+const Product = require('./models/products');
+const User = require('./models/user');
 
 // Set the view engine to EJS and define the views directory
 app.set('view engine', 'ejs');
@@ -34,9 +36,23 @@ app.use(shopRoutes);
 app.use(errorControllers.get404);
 
 
-sequelize.sync().then(() => {
-	console.log("Successfully connected to a db");
-	app.listen(3000);
+Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
+User.hasMany(Product);
+sequelize
+	.sync()
+	.then(() => {
+		return User.findByPk(1);
+	})
+	.then(user => {
+		if(!user){
+			return User.create({name: "Usamah", email: "test@test.com"})
+		}
+		return user;
+	})
+	.then((user) => {
+		console.log(user);
+		console.log("Successfully connected to a db");
+		app.listen(3000);
 }).catch(err => {
 	console.log(err);
 })
